@@ -1,25 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const BookCard = () => {
+export type Book = {
+  title: string,
+  filename: string,
+  language: string,
+  category: string[],
+  description: string,
+  author: string,
+  thumbnail: string,
+  updated: string,
+  source: string,
+};
+
+type CardProps = {
+  book: Book
+}
+
+const BookCard = ({ book }: CardProps) => {
+  const [selected, setSelected] = useState<Boolean>(false);
+
   return (
-    <div className="flex max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
-      <div className="w-1/3 bg-cover bg-landscape">
-      </div>
-      <div className="w-2/3 p-4">
+    <div className="bg-green-100 shadow-lg rounded-lg h-full w-full overflow-hidden">
+      <div className="p-4">
         <h1 className="text-gray-900 font-bold text-2xl">
-          Book Title Here
+          {book.title}
         </h1>
         <p className="mt-2 text-gray-600 text-sm">
-          Book Description Here
+          {book.description}
         </p>
         <div className="flex item-center mt-2">
-          <span className="bg-gray-500 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center">
-            $36.00
-          </span>
+          {book.category.map((category) => <span className="bg-gray-500 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mx-1">
+            {category}
+          </span>)}
         </div>
         <div className="flex item-center justify-between mt-3">
           <h1 className="text-gray-700 font-bold text-xl">
-            Author here
+            <small>by</small> {book.author}
           </h1>
           <button type="button" className="w-10 h-10 text-base font-medium rounded-full text-white bg-gray-500 hover:bg-pink-700">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" className="mx-auto" fill="white" viewBox="0 0 1792 1792">

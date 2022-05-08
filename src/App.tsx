@@ -1,14 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Navigation from './components/Navigation';
-import BookCard from './components/BookCard';
+import Navigation from './common/components/Navigation';
+import ListFiles from './features/ListFiles';
 
 function App() {
   return (
-    <div className='w-full bg-white p-4'>
+    <div className='container mx-auto bg-white p-4'>
       <Navigation />
-      <BookCard />
+      <ListFiles />
     </div>
   );
 }

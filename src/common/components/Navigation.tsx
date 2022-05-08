@@ -1,4 +1,5 @@
 import React from 'react'
+import logo from '../../assets/icons/rocket.svg';
 
 const Navigation = () => {
     return (
@@ -7,7 +8,7 @@ const Navigation = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="w-full justify-between flex items-center">
                         <a className="flex-shrink-0" href="/">
-                            <img className="h-8 w-8" src="/icons/rocket.svg" alt="Workflow" />
+                            <img className="h-8 w-8" src={logo} alt="Combine PDF" />
                         </a>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
