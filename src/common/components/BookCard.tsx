@@ -20,16 +20,18 @@ const BookCard = ({ book }: CardProps) => {
   const [selected, setSelected] = useState<Boolean>(false);
 
   return (
-    <div className="bg-green-100 shadow-lg rounded-lg h-full w-full overflow-hidden">
-      <div className="p-4">
+    <div className="flex p-4 justify-between flex-col bg-green-100 shadow-lg rounded-lg h-full w-full overflow-hidden">
+      <div className="">
         <h1 className="text-gray-900 font-bold text-2xl">
           {book.title}
         </h1>
         <p className="mt-2 text-gray-600 text-sm">
           {book.description}
         </p>
-        <div className="flex item-center mt-2">
-          {book.category.map((category) => <span className="bg-gray-500 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mx-1">
+      </div>
+      <div>
+        <div className="flex item-center mt-2 overflow-auto">
+          {book.category.map((category) => <span className="bg-gray-500 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mr-1 whitespace-nowrap">
             {category}
           </span>)}
         </div>
