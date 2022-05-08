@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-landscape {
+  background-image: url(/public/images/2.jpg)!important;
+}
