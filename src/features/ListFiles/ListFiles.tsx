@@ -2,24 +2,22 @@ import React, { useEffect, useState } from 'react'
 import books from '../../app/books.json';
 import { Book } from '../../app/types';
 import BookCard from '../../common/components/BookCard';
+import { useAppSelector, useAppDispatch } from '../../app/hooks'
+import { fetchPDFs, selectPDF, unSelectPDF } from './pdfsSlice';
 
 const ListFiles = () => {
-  const [pdfFiles, setPDFFiles] = useState<Book[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<Book[]>([]);
-
   useEffect(() => {
-    setPDFFiles(books);
+    dispatch(fetchPDFs());
   }, [])
-
+  const pdfFiles = useAppSelector((state) => state.pdfs.pdfs);
+  const dispatch = useAppDispatch()
+  
   const onSelected = (pdf: Book) => {
-    let files = selectedFiles;
-    files.push(pdf);
-    setSelectedFiles(files);
+    dispatch(selectPDF(pdf));
   }
 
   const onRemoved = (toBeRemovedPDF: Book) => {
-    let files = selectedFiles.filter((pdf) => toBeRemovedPDF.filename !== pdf.filename);
-    setSelectedFiles(files);
+    dispatch(unSelectPDF(toBeRemovedPDF));
   }
 
   return (

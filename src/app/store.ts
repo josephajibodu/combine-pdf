@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
+import pdfsReducer from '../features/ListFiles/pdfsSlice';
 
 export const store = configureStore({
   reducer: {
-    // posts: postsReducer,
-    // comments: commentsReducer,
-    // users: usersReducer,
+    pdfs: pdfsReducer,
   },
 });
 
