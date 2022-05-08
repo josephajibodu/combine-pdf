@@ -1,16 +1,5 @@
 import React, { useState } from 'react'
-
-export type Book = {
-  title: string,
-  filename: string,
-  language: string,
-  category: string[],
-  description: string,
-  author: string,
-  thumbnail: string,
-  updated: string,
-  source: string,
-};
+import { Book } from '../../app/types'
 
 type CardProps = {
   book: Book,

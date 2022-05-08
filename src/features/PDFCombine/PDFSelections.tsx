@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Book } from '../../common/components/BookCard'
+import { Book } from '../../app/types';
 
 type PDFSelectionsProp = {
   pdfs?: Book[]

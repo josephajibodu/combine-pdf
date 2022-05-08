@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import books from '../../app/books.json';
-import BookCard, { Book } from '../../common/components/BookCard';
+import { Book } from '../../app/types';
+import BookCard from '../../common/components/BookCard';
 
 const ListFiles = () => {
   const [pdfFiles, setPDFFiles] = useState<Book[]>([]);
@@ -14,15 +15,11 @@ const ListFiles = () => {
     let files = selectedFiles;
     files.push(pdf);
     setSelectedFiles(files);
-
-    console.log(files);
   }
 
   const onRemoved = (toBeRemovedPDF: Book) => {
     let files = selectedFiles.filter((pdf) => toBeRemovedPDF.filename !== pdf.filename);
     setSelectedFiles(files);
-
-    console.log(files);
   }
 
   return (
