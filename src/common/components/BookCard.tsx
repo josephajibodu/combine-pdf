@@ -30,7 +30,7 @@ const BookCard = ({ book, onBookSelected, onBookRemoved }: CardProps) => {
   }
 
   return (
-    <div onClick={toggleSelection} className="flex p-4 justify-between flex-col bg-green-100 shadow-lg rounded-lg h-full w-full overflow-hidden">
+    <div onClick={toggleSelection} className="flex p-4 justify-between flex-col bg-green-100 shadow-lg hover:shadow-xl cursor-pointer rounded-lg h-full w-full overflow-hidden">
       <div className="">
         <h1 className="text-gray-900 font-bold text-2xl">
           {book.title}
