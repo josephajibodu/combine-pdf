@@ -41,7 +41,7 @@ const BookCard = ({ book, onBookSelected, onBookRemoved }: CardProps) => {
       </div>
       <div>
         <div className="flex item-center mt-2 overflow-auto">
-          {book.category.map((category) => <span className="bg-gray-400 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mr-1 whitespace-nowrap">
+          {book.category.map((category, index) => <span key={index} className="bg-gray-400 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mr-1 whitespace-nowrap">
             {category}
           </span>)}
         </div>

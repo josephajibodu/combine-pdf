@@ -4,9 +4,11 @@ import ListFiles from './features/ListFiles';
 
 function App() {
   return (
-    <div className='container mx-auto bg-white p-4'>
+    <div className='p-4'>
       <Navigation />
-      <ListFiles />
+      <div className='md:container mx-auto bg-white p-4'>
+        <ListFiles />
+      </div>
     </div>
   );
 }
