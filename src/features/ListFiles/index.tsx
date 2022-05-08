@@ -1,9 +1,3 @@
-import React from 'react'
+import ListFiles from "./ListFiles";
 
-const index = () => {
-  return (
-    <div>index</div>
-  )
-}
-
-export default index
+export default ListFiles;
