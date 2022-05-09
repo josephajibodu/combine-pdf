@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { PDF } from "../../app/types";
-import books from "../../app/books.json";
 import client from "../../api/client";
 
 interface PDFState {
