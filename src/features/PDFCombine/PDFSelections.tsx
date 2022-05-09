@@ -11,7 +11,7 @@ const PDFSelections = () => {
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
       {showSelectedPDFs &&
-        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit md:w-80 p-4 bg-white dark:bg-gray-800 relative">
+        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit md:w-96 p-4 bg-white dark:bg-gray-800 relative">
           <div className="w-full flex items-center justify-between mb-6">
             <p className="text-gray-800 dark:text-white text-xl font-medium">
               Selected PDF's
@@ -26,7 +26,7 @@ const PDFSelections = () => {
             No File Selected!
           </p>}
 
-          <div className='overflow-scroll max-h-96'>
+          <div className='overflow-y-auto max-h-96'>
             {pdfFiles.map((pdf) => (
               <div key={pdf.filename} className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
                 <div className="flex w-full ml-2 items-center justify-between">

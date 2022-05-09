@@ -7,9 +7,9 @@ import PDFSelections from './features/PDFCombine';
 function App() {
 
   return (
-    <div className='p-4'>
+    <div className='p-4 bg-gray-100'>
       <Navigation />
-      <div className='md:container mx-auto bg-white p-4'>
+      <div className='md:container mx-auto p-4'>
         <ListFiles />
         <PDFSelections />
       </div>
