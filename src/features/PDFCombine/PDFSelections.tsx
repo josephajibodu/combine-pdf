@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
-import { Book } from '../../app/types';
+import { useAppSelector } from '../../app/hooks';
 
-type PDFSelectionsProp = {
-  pdfs?: Book[]
-};
-
-const PDFSelections = ({ pdfs }: PDFSelectionsProp) => {
+const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<Boolean>(false);
+  const pdfFiles = useAppSelector((state) => state.pdfs.selectedPdfs);
 
   return (
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
@@ -23,11 +20,11 @@ const PDFSelections = ({ pdfs }: PDFSelectionsProp) => {
               </svg>
             </button>
           </div>
-          {(!pdfs || pdfs.length) && <p className='text-gray-400 mb-3'>
+          {(!pdfFiles || pdfFiles.length > 0) && <p className='text-gray-400 mb-3'>
             No File Selected!
           </p>}
 
-          {pdfs?.map((pdf) => (
+          {pdfFiles.map((pdf) => (
             <div className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
               <div className="flex w-full ml-2 items-center justify-between">
                 <p>
@@ -67,8 +64,8 @@ const PDFSelections = ({ pdfs }: PDFSelectionsProp) => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>)
         }
-        {pdfs && <span className="absolute -top-2 -right-2 w-8 h-8 text-base  rounded-full text-white bg-red-500 p-1">
-          {pdfs.length}
+        {pdfFiles.length > 0 && <span className="absolute -top-2 -right-2 w-8 h-8 text-base  rounded-full text-white bg-red-500 p-1">
+          {pdfFiles.length}
         </span>}
       </button>
 

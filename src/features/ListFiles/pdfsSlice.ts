@@ -13,10 +13,10 @@ const initialState : PDFState = {
   selectedPdfs: []
 }
 
-// export const fetchPDFs = createAsyncThunk('pdfs/fetchPDFs', async () => {
+export const fetchPDFs = createAsyncThunk('pdfs/fetchPDFs', async () => {
   
-//   return books;
-// })
+  return books;
+})
 
 
 export const pdfsSlice = createSlice({
@@ -30,23 +30,13 @@ export const pdfsSlice = createSlice({
     },
 
     unSelectPDF: (state, action: PayloadAction<Book>) => {
-      state.selectedPdfs.filter((pdf) => pdf.filename !== action.payload.filename)
-    },
-
-    updateBooks: (state, action: PayloadAction<Book[]>) => {
-      state.pdfs = action.payload;
+      state.selectedPdfs.filter((pdf) => pdf.filename === action.payload.filename)
     },
   },
 })
 
 
 
-export const { selectPDF, unSelectPDF, updateBooks } = pdfsSlice.actions;
-
-export const fetchPDFs = () => async (dispatch:AppDispatch) => {
-  const response = books;
-  console.log(response);
-  dispatch(updateBooks(response))
-}
+export const { selectPDF, unSelectPDF } = pdfsSlice.actions;
 
 export default pdfsSlice.reducer
