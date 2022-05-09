@@ -26,7 +26,7 @@ const ListFiles = () => {
   return (
     <div className='grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 m gap-5'>
       {pdfFiles.map((pdf : PDF) => (
-        <BookCard key={pdf.filename} book={pdf} onBookSelected={onSelected} onBookRemoved={onRemoved} />
+        <BookCard key={pdf.filename} pdf={pdf} onBookSelected={onSelected} onBookRemoved={onRemoved} />
       ))}
     </div>
   )

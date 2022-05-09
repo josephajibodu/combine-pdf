@@ -26,14 +26,31 @@ export const pdfsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    selectPDF: (state, action: PayloadAction<PDF>) => {
-      state.selectedPdfs.push(action.payload);
+    selectPDF: (state, { payload : selectedPDF }: PayloadAction<PDF>) => {
+      state.selectedPdfs.push(selectedPDF);
+      state.pdfs.map((pdf) => {
+        if (pdf.filename === selectedPDF.filename) {
+          let newPDF = pdf;
+          newPDF.selected = true;
+          return newPDF;
+        }
+        return pdf;
+      })
     },
 
-    unSelectPDF: (state, action: PayloadAction<PDF>) => {
+    unSelectPDF: (state, { payload: unSelectedPDF }: PayloadAction<PDF>) => {
       state.selectedPdfs = state.selectedPdfs.filter(
-        (pdf) => pdf.filename !== action.payload.filename
+        (pdf) => pdf.filename !== unSelectedPDF.filename
       );
+      state.pdfs.map((pdf) => {
+        if (pdf.filename === unSelectedPDF.filename) {
+          let newPDF = pdf;
+          newPDF.selected = false;
+          return newPDF;
+        }
+        return pdf;
+      })
+      
     },
   },
   extraReducers: (builder) => {

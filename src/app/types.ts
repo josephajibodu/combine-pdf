@@ -8,4 +8,5 @@ export type PDF = {
   thumbnail: string,
   updated: string,
   source: string,
+  selected?: boolean
 };
