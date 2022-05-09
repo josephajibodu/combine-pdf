@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction , createAsyncThunk} from '@reduxjs/toolkit'
-import type { AppDispatch, RootState } from '../../app/store'
 import { Book } from '../../app/types'
 import books from '../../app/books.json';
 

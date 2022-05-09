@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import books from '../../app/books.json';
+import React, { useEffect } from 'react'
 import { Book } from '../../app/types';
 import BookCard from '../../common/components/BookCard';
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import { fetchPDFs, selectPDF, unSelectPDF } from './pdfsSlice';
 
 const ListFiles = () => {
+  const pdfFiles = useAppSelector((state) => state.pdfs.pdfs);
+  const dispatch = useAppDispatch();
+
+
   useEffect(() => {
     dispatch(fetchPDFs());
-  }, [])
-  const pdfFiles = useAppSelector((state) => state.pdfs.pdfs);
-  const dispatch = useAppDispatch()
+  }, [dispatch])
   
   const onSelected = (pdf: Book) => {
     dispatch(selectPDF(pdf));
