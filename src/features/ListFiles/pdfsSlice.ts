@@ -7,6 +7,7 @@ interface PDFState {
   selectedPdfs: PDF[];
   error: string | null;
   status: "idle" | "loading" | "failed" | "succeeded";
+  combinePDFStatus: "idle" | "loading" | "failed" | "succeeded";
 }
 
 const initialState: PDFState = {
@@ -14,6 +15,7 @@ const initialState: PDFState = {
   selectedPdfs: [],
   status: "idle",
   error: null,
+  combinePDFStatus: 'idle'
 };
 
 export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
@@ -21,12 +23,14 @@ export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
   return response.data as PDF[];
 });
 
+export const combinePDFs = createAsyncThunk("pdfs/combinePDFs", async () => {});
+
 export const pdfsSlice = createSlice({
   name: "pdfs",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    selectPDF: (state, { payload : selectedPDF }: PayloadAction<PDF>) => {
+    selectPDF: (state, { payload: selectedPDF }: PayloadAction<PDF>) => {
       state.selectedPdfs.push(selectedPDF);
       state.pdfs.map((pdf) => {
         if (pdf.filename === selectedPDF.filename) {
@@ -35,7 +39,7 @@ export const pdfsSlice = createSlice({
           return newPDF;
         }
         return pdf;
-      })
+      });
     },
 
     unSelectPDF: (state, { payload: unSelectedPDF }: PayloadAction<PDF>) => {
@@ -49,8 +53,7 @@ export const pdfsSlice = createSlice({
           return newPDF;
         }
         return pdf;
-      })
-      
+      });
     },
   },
   extraReducers: (builder) => {
@@ -65,6 +68,15 @@ export const pdfsSlice = createSlice({
       .addCase(fetchPDFs.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         state.pdfs = payload;
+      })
+      .addCase(combinePDFs.pending, (state, { payload }) => {
+        
+      })
+      .addCase(combinePDFs.rejected, (state, { payload }) => {
+        
+      })
+      .addCase(combinePDFs.fulfilled, (state, { payload }) => {
+        
       });
   },
 });
