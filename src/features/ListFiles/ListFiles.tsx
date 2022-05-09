@@ -3,9 +3,11 @@ import { Book } from '../../app/types';
 import BookCard from '../../common/components/BookCard';
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import { fetchPDFs, selectPDF, unSelectPDF } from './pdfsSlice';
+import Skeleton from '../../common/components/Skeleton';
 
 const ListFiles = () => {
   const pdfFiles = useAppSelector((state) => state.pdfs.pdfs);
+  const status = useAppSelector((state) => state.pdfs.status);
   const dispatch = useAppDispatch();
 
 
@@ -20,7 +22,7 @@ const ListFiles = () => {
   const onRemoved = (toBeRemovedPDF: Book) => {
     dispatch(unSelectPDF(toBeRemovedPDF));
   }
-
+  if (status === 'loading') return <Skeleton />
   return (
     <div className='grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 m gap-5'>
       {pdfFiles.map((pdf : Book) => (

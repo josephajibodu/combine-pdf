@@ -1,47 +1,61 @@
-import { createSlice, PayloadAction , createAsyncThunk} from '@reduxjs/toolkit'
-import { Book } from '../../app/types'
-import books from '../../app/books.json';
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { Book } from "../../app/types";
+import books from "../../app/books.json";
 
 interface PDFState {
-  pdfs: Book[]
-  selectedPdfs: Book[]
+  pdfs: Book[];
+  selectedPdfs: Book[];
+  error: string | null;
+  status: "idle" | "loading" | "failed" | "succeeded";
 }
 
-const initialState : PDFState = {
+const initialState: PDFState = {
   pdfs: [],
-  selectedPdfs: []
-}
+  selectedPdfs: [],
+  status: "idle",
+  error: null,
+};
 
-export const fetchPDFs = createAsyncThunk('pdfs/fetchPDFs', async () => {
-  
+const bookEndpoint = () => {
+  return new Promise(resolve => setTimeout(() => resolve(books), 6000))
+};
+
+export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
+  const books = await bookEndpoint();
   return books as Book[];
-})
-
+});
 
 export const pdfsSlice = createSlice({
-  name: 'books',
+  name: "books",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    
     selectPDF: (state, action: PayloadAction<Book>) => {
       state.selectedPdfs.push(action.payload);
     },
 
     unSelectPDF: (state, action: PayloadAction<Book>) => {
-      state.selectedPdfs = state.selectedPdfs.filter((pdf) => pdf.filename !== action.payload.filename)
+      state.selectedPdfs = state.selectedPdfs.filter(
+        (pdf) => pdf.filename !== action.payload.filename
+      );
     },
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(fetchPDFs.fulfilled, (state, { payload }) => {
-      state.pdfs = payload;
-    })
+    builder
+      .addCase(fetchPDFs.pending, (state, { payload }) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPDFs.rejected, (state, { payload }) => {
+        state.status = 'failed';
+        state.error = "An error occured!";
+      })
+      .addCase(fetchPDFs.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded';
+        state.pdfs = payload;
+      });
   },
-})
-
-
+});
 
 export const { selectPDF, unSelectPDF } = pdfsSlice.actions;
 
-export default pdfsSlice.reducer
+export default pdfsSlice.reducer;

@@ -1,9 +1,11 @@
 import React from 'react';
+import { useAppDispatch } from './app/hooks';
 import Navigation from './common/components/Navigation';
 import ListFiles from './features/ListFiles';
 import PDFSelections from './features/PDFCombine';
 
 function App() {
+
   return (
     <div className='p-4'>
       <Navigation />
