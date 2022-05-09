@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { Book } from "../../app/types";
+import { PDF } from "../../app/types";
 import books from "../../app/books.json";
+import client from "../../api/client";
 
 interface PDFState {
-  pdfs: Book[];
-  selectedPdfs: Book[];
+  pdfs: PDF[];
+  selectedPdfs: PDF[];
   error: string | null;
   status: "idle" | "loading" | "failed" | "succeeded";
 }
@@ -16,25 +17,21 @@ const initialState: PDFState = {
   error: null,
 };
 
-const bookEndpoint = () => {
-  return new Promise(resolve => setTimeout(() => resolve(books), 6000))
-};
-
 export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
-  const books = await bookEndpoint();
-  return books as Book[];
+  const response = await client.get("stuboo/tools/main/urogyn_pdfs.json");
+  return response.data as PDF[];
 });
 
 export const pdfsSlice = createSlice({
-  name: "books",
+  name: "pdfs",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    selectPDF: (state, action: PayloadAction<Book>) => {
+    selectPDF: (state, action: PayloadAction<PDF>) => {
       state.selectedPdfs.push(action.payload);
     },
 
-    unSelectPDF: (state, action: PayloadAction<Book>) => {
+    unSelectPDF: (state, action: PayloadAction<PDF>) => {
       state.selectedPdfs = state.selectedPdfs.filter(
         (pdf) => pdf.filename !== action.payload.filename
       );
@@ -43,14 +40,14 @@ export const pdfsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPDFs.pending, (state, { payload }) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchPDFs.rejected, (state, { payload }) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = "An error occured!";
       })
       .addCase(fetchPDFs.fulfilled, (state, { payload }) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.pdfs = payload;
       });
   },
