@@ -1,4 +1,4 @@
-export type Book = {
+export type PDF = {
   title: string,
   filename: string,
   language: string,

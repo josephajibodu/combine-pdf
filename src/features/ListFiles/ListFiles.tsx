@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Book } from '../../app/types';
+import { PDF } from '../../app/types';
 import BookCard from '../../common/components/BookCard';
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import { fetchPDFs, selectPDF, unSelectPDF } from './pdfsSlice';
@@ -15,17 +15,17 @@ const ListFiles = () => {
     dispatch(fetchPDFs());
   }, [dispatch])
   
-  const onSelected = (pdf: Book) => {
+  const onSelected = (pdf: PDF) => {
     dispatch(selectPDF(pdf));
   }
 
-  const onRemoved = (toBeRemovedPDF: Book) => {
+  const onRemoved = (toBeRemovedPDF: PDF) => {
     dispatch(unSelectPDF(toBeRemovedPDF));
   }
   if (status === 'loading') return <Skeleton />
   return (
     <div className='grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 m gap-5'>
-      {pdfFiles.map((pdf : Book) => (
+      {pdfFiles.map((pdf : PDF) => (
         <BookCard key={pdf.filename} book={pdf} onBookSelected={onSelected} onBookRemoved={onRemoved} />
       ))}
     </div>

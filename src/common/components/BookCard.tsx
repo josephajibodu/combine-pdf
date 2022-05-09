@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Book } from '../../app/types'
+import { PDF } from '../../app/types'
 
 type CardProps = {
-  book: Book,
-  onBookSelected?: (book: Book) => void
-  onBookRemoved?: (book: Book) => void
+  book: PDF,
+  onBookSelected?: (book: PDF) => void
+  onBookRemoved?: (book: PDF) => void
 }
 
 const BookCard = ({ book, onBookSelected, onBookRemoved }: CardProps) => {
