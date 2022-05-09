@@ -14,7 +14,7 @@ const initialState : PDFState = {
 
 export const fetchPDFs = createAsyncThunk('pdfs/fetchPDFs', async () => {
   
-  return books;
+  return books as Book[];
 })
 
 
@@ -29,8 +29,14 @@ export const pdfsSlice = createSlice({
     },
 
     unSelectPDF: (state, action: PayloadAction<Book>) => {
-      state.selectedPdfs.filter((pdf) => pdf.filename === action.payload.filename)
+      state.selectedPdfs = state.selectedPdfs.filter((pdf) => pdf.filename !== action.payload.filename)
     },
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(fetchPDFs.fulfilled, (state, { payload }) => {
+      state.pdfs = payload;
+    })
   },
 })
 

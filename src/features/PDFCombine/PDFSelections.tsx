@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { unSelectPDF } from '../ListFiles/pdfsSlice';
 
 const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<Boolean>(false);
   const pdfFiles = useAppSelector((state) => state.pdfs.selectedPdfs);
+  const dispatch = useAppDispatch();
 
   return (
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
       {showSelectedPDFs &&
-        <div className="transition transition-opacity shadow-lg rounded-xl w-full md:w-80 p-4 bg-white dark:bg-gray-800 relative overflow-hidden">
+        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit md:w-80 p-4 bg-white dark:bg-gray-800 relative">
           <div className="w-full flex items-center justify-between mb-6">
             <p className="text-gray-800 dark:text-white text-xl font-medium">
               Selected PDF's
@@ -20,24 +22,26 @@ const PDFSelections = () => {
               </svg>
             </button>
           </div>
-          {(!pdfFiles || pdfFiles.length > 0) && <p className='text-gray-400 mb-3'>
+          {(!pdfFiles || pdfFiles.length < 1) && <p className='text-gray-400 mb-3'>
             No File Selected!
           </p>}
 
-          {pdfFiles.map((pdf) => (
-            <div className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
-              <div className="flex w-full ml-2 items-center justify-between">
-                <p>
-                  FileName.pdf
-                </p>
-                <button className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="text-red-600 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+          <div className='overflow-scroll max-h-96'>
+            {pdfFiles.map((pdf) => (
+              <div key={pdf.filename} className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
+                <div className="flex w-full ml-2 items-center justify-between">
+                  <p>
+                    {pdf.filename}
+                  </p>
+                  <button onClick={() => dispatch(unSelectPDF(pdf))} className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="text-red-600 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           <button type="button" className="py-2 px-4 flex justify-center items-center  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
             <svg width="20" height="20" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
