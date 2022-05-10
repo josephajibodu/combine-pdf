@@ -84,7 +84,6 @@ export const pdfsSlice = createSlice({
       })
       .addCase(combinePDFs.fulfilled, (state, { payload }) => {
         state.combinePDFStatus = 'succeeded';
-        state.combinedPDF = payload;
       });
   },
 });
