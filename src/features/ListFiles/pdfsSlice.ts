@@ -1,4 +1,4 @@
-import { RootState } from './../../app/store';
+import { RootState } from "./../../app/store";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { PDF } from "../../app/types";
 import client from "../../api/client";
@@ -7,30 +7,38 @@ import mergePDF from "../../common/pdf-lib";
 interface PDFState {
   pdfs: PDF[];
   selectedPdfs: PDF[];
+  languages: string[];
+  filter: string;
   error: string | null;
   status: "idle" | "loading" | "failed" | "succeeded";
   combinePDFStatus: "idle" | "loading" | "failed" | "succeeded";
-  combinedPDF: Uint8Array | null
+  combinedPDF: Uint8Array | null;
 }
 
 const initialState: PDFState = {
   pdfs: [],
   selectedPdfs: [],
+  languages: [],
+  filter: "any",
   status: "idle",
   error: null,
-  combinePDFStatus: 'idle',
-  combinedPDF: null
+  combinePDFStatus: "idle",
+  combinedPDF: null,
 };
 
 export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
   const response = await client.get("stuboo/tools/main/urogyn_pdfs.json");
+
   return response.data as PDF[];
 });
 
-export const combinePDFs = createAsyncThunk("pdfs/combinePDFs", async (toBeCombinedPDFs : PDF[]) => {
-  const pdfBytes = await mergePDF(toBeCombinedPDFs);
-  return pdfBytes;
-});
+export const combinePDFs = createAsyncThunk(
+  "pdfs/combinePDFs",
+  async (toBeCombinedPDFs: PDF[]) => {
+    const pdfBytes = await mergePDF(toBeCombinedPDFs);
+    return pdfBytes;
+  }
+);
 
 export const pdfsSlice = createSlice({
   name: "pdfs",
@@ -62,6 +70,20 @@ export const pdfsSlice = createSlice({
         return pdf;
       });
     },
+
+    extractLanguages: (state) => {
+      let languages: string[] = [];
+
+      state.pdfs.forEach((pdf) => {
+        if (!languages.includes(pdf.language)) languages.push(pdf.language);
+      });
+
+      state.languages = languages;
+    },
+
+    setFilter: (state, { payload } : PayloadAction<string>) => {
+      state.filter = payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -75,19 +97,27 @@ export const pdfsSlice = createSlice({
       .addCase(fetchPDFs.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         state.pdfs = payload;
+
+        let languages: string[] = [];
+
+        payload.forEach((pdf) => {
+          if (!languages.includes(pdf.language)) languages.push(pdf.language);
+        });
+
+        state.languages = languages;
       })
       .addCase(combinePDFs.pending, (state, { payload }) => {
-        state.combinePDFStatus = 'loading';
+        state.combinePDFStatus = "loading";
       })
       .addCase(combinePDFs.rejected, (state, { payload }) => {
-        state.combinePDFStatus = 'failed';
+        state.combinePDFStatus = "failed";
       })
       .addCase(combinePDFs.fulfilled, (state, { payload }) => {
-        state.combinePDFStatus = 'succeeded';
+        state.combinePDFStatus = "succeeded";
       });
   },
 });
 
-export const { selectPDF, unSelectPDF } = pdfsSlice.actions;
+export const { selectPDF, unSelectPDF, extractLanguages, setFilter } = pdfsSlice.actions;
 
 export default pdfsSlice.reducer;
