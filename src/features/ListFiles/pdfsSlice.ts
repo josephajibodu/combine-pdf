@@ -9,6 +9,7 @@ interface PDFState {
   selectedPdfs: PDF[];
   languages: string[];
   filter: string;
+  searchterm: string;
   error: string | null;
   status: "idle" | "loading" | "failed" | "succeeded";
   combinePDFStatus: "idle" | "loading" | "failed" | "succeeded";
@@ -20,6 +21,7 @@ const initialState: PDFState = {
   selectedPdfs: [],
   languages: [],
   filter: "any",
+  searchterm: "",
   status: "idle",
   error: null,
   combinePDFStatus: "idle",
@@ -83,6 +85,10 @@ export const pdfsSlice = createSlice({
 
     setFilter: (state, { payload } : PayloadAction<string>) => {
       state.filter = payload;
+    },
+
+    setSearchTerm: (state, { payload } : PayloadAction<string>) => {
+      state.searchterm = payload;
     }
   },
   extraReducers: (builder) => {
@@ -118,6 +124,6 @@ export const pdfsSlice = createSlice({
   },
 });
 
-export const { selectPDF, unSelectPDF, extractLanguages, setFilter } = pdfsSlice.actions;
+export const { selectPDF, unSelectPDF, extractLanguages, setFilter, setSearchTerm } = pdfsSlice.actions;
 
 export default pdfsSlice.reducer;

@@ -2,37 +2,47 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { PDF } from '../../app/types';
 import BookCard from '../../common/components/BookCard';
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { fetchPDFs, selectPDF, setFilter, unSelectPDF } from './pdfsSlice';
+import { fetchPDFs, selectPDF, setFilter, setSearchTerm, unSelectPDF } from './pdfsSlice';
 import Skeleton from '../../common/components/Skeleton';
 
 const DEFAULT_FILTER = "any";
+
+const searchFor = (needle: string, haystack: string) => {
+  return haystack.toLowerCase().includes(needle.toLowerCase());
+}
 
 const ListFiles = () => {
   const pdfFiles = useAppSelector((state) => state.pdfs.pdfs);
   const languages = useAppSelector((state) => state.pdfs.languages);
   const filter = useAppSelector((state) => state.pdfs.filter);
+  const searchterm = useAppSelector((state) => state.pdfs.searchterm);
   const status = useAppSelector((state) => state.pdfs.status);
   const dispatch = useAppDispatch();
 
-  const [search, setSearch] = useState<string>("");
-
   const [filteredPDFs, setFilteredPDFs] = useState<PDF[]>([]);
   
-  const filterBy = useCallback(
-    (by: string) => {
-      if (by === DEFAULT_FILTER) return setFilteredPDFs(pdfFiles);
-  
-      let _filtered = pdfFiles.filter((pdf) => pdf.language === by);
+  const filterSearch = useCallback(
+    () => {
+
+      let _filtered;
+
+      // Filter
+      if (filter === DEFAULT_FILTER) _filtered = pdfFiles;
+      else _filtered = pdfFiles.filter((pdf) => pdf.language === filter);
+
+      // Search
+      if (searchterm) {
+        // _filtered = _filtered.filter((pdf) => pdf.title.toLowerCase().includes(searchterm.toLowerCase()))
+        _filtered = _filtered.filter((pdf) => {
+          return searchterm.split(" ").every((q) => searchFor(q, pdf.title));
+        })
+      }
+
       setFilteredPDFs(_filtered);
     },
-    [pdfFiles]
+    [filter, pdfFiles, searchterm]
   )
-  
 
-  const searchBy = (by: string) => {
-    let _filtered = filteredPDFs.filter((pdf) => pdf.language === by);
-    setFilteredPDFs(_filtered);
-  }
 
   useEffect(() => {
     setFilteredPDFs(pdfFiles);
@@ -43,8 +53,8 @@ const ListFiles = () => {
   }, [dispatch, pdfFiles]);
 
   useEffect(() => {
-    filterBy(filter);
-  }, [filter, filterBy]);
+    filterSearch();
+  }, [filterSearch]);
 
   const onSelected = (pdf: PDF) => {
     dispatch(selectPDF(pdf));
@@ -53,17 +63,20 @@ const ListFiles = () => {
   const onRemoved = (toBeRemovedPDF: PDF) => {
     dispatch(unSelectPDF(toBeRemovedPDF));
   }
+
   if (status === 'loading') return <Skeleton />
   return (
     <>
 
       <form className="flex md:flex-row mb-3">
         <div className=" relative flex-auto mr-3">
-          <label className='mb-5' htmlFor='search'>Search PDFs: {search}</label>
+          <label className='mb-5' htmlFor='search'>Search PDFs:</label>
           <input type="text" className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
             placeholder="Enter Search Keyword"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)} />
+            value={searchterm}
+            onChange={(e) => {
+              dispatch(setSearchTerm(e.target.value))
+            }} />
         </div>
 
         <div className=" relative ">
