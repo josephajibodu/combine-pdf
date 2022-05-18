@@ -21,7 +21,7 @@ const PDFSelections = () => {
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
       {showSelectedPDFs &&
-        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit w-96 p-4 bg-white dark:bg-gray-800 relative">
+        <div className="transition ease-in duration-1000 shadow-lg rounded-xl w-full max-h-fit w-96 p-4 bg-white dark:bg-gray-800 relative">
           <div className="w-full flex items-center justify-between mb-6">
             <button className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -68,7 +68,7 @@ const PDFSelections = () => {
 
 
           {status !== 'loading' &&
-            <button onClick={combineFiles} type="button" className="py-2 px-4 flex justify-center items-center  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+            <button disabled={pdfFiles.length < 1} onClick={combineFiles} type="button" className={`py-2 px-4 flex justify-center items-center  ${pdfFiles.length < 1 ? 'opacity-30' : 'opacity-100'} bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg`}>
               <svg width="20" height="20" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1344 1472q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z">
                 </path>
