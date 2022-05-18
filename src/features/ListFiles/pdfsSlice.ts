@@ -73,6 +73,19 @@ export const pdfsSlice = createSlice({
       });
     },
 
+    clearSelection: (state) => {
+      state.selectedPdfs = [];
+
+      state.pdfs.map((pdf) => {
+        if (pdf.selected) {
+          let newPDF = pdf;
+          newPDF.selected = false;
+          return newPDF;
+        }
+        return pdf;
+      });
+    },
+
     extractLanguages: (state) => {
       let languages: string[] = [];
 
