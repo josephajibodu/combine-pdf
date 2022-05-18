@@ -2,7 +2,19 @@ import { PDFDocument } from "pdf-lib";
 import { PDF } from "../app/types";
 import { saveAs } from "file-saver";
 
+function extractFileName(pdfFiles: PDF[]) : string {
+  let _file_name = "";
+  
+  pdfFiles.forEach((pdf) => {
+    _file_name += `_${pdf.title.split(".pdf")[0].split(" ")[0]}`;
+  })
+
+  return _file_name;
+}
+
 export default async function mergePDF(pdfFiles: PDF[]) {
+  const fileName = extractFileName(pdfFiles);
+
   try {
     const finalPdfDoc = await PDFDocument.create();
 
@@ -26,7 +38,7 @@ export default async function mergePDF(pdfFiles: PDF[]) {
 
     saveAs(
       new Blob([finalPdfBytes], { type: "application/pdf" }),
-      "pdf-lib_modification.pdf"
+      fileName ?? "pdf-lib_modification.pdf"
     );
   } catch (error) {
     throw error;
