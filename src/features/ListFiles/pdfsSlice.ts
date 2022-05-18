@@ -137,6 +137,6 @@ export const pdfsSlice = createSlice({
   },
 });
 
-export const { selectPDF, unSelectPDF, extractLanguages, setFilter, setSearchTerm } = pdfsSlice.actions;
+export const { selectPDF, unSelectPDF, extractLanguages, setFilter, setSearchTerm, clearSelection } = pdfsSlice.actions;
 
 export default pdfsSlice.reducer;

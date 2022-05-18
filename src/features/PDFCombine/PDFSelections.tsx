@@ -1,32 +1,48 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { combinePDFs, unSelectPDF } from '../ListFiles/pdfsSlice';
+import { clearSelection, combinePDFs, unSelectPDF } from '../ListFiles/pdfsSlice';
 
 const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<Boolean>(false);
   const pdfFiles = useAppSelector((state) => state.pdfs.selectedPdfs);
   const status = useAppSelector((state) => state.pdfs.combinePDFStatus);
-  const readyToDownloadFile = useAppSelector((state) => state.pdfs.combinedPDF);
+  // const readyToDownloadFile = useAppSelector((state) => state.pdfs.combinedPDF);
   const dispatch = useAppDispatch();
 
   const combineFiles = () => {
     dispatch(combinePDFs(pdfFiles));
   }
 
+  const clearSelectionList = () => {
+    dispatch(clearSelection());
+  }
+
   return (
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
       {showSelectedPDFs &&
-        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit md:w-96 p-4 bg-white dark:bg-gray-800 relative">
+        <div className="transition transition-opacity shadow-lg rounded-xl w-full max-h-fit w-96 p-4 bg-white dark:bg-gray-800 relative">
           <div className="w-full flex items-center justify-between mb-6">
-            <p className="text-gray-800 dark:text-white text-xl font-medium">
-              Selected PDF's
-            </p>
             <button className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             </button>
+
+            <p className="text-gray-800 dark:text-white text-xl font-medium">
+              Selected PDF's
+            </p>
+
+            {
+              pdfFiles.length > 0 && 
+              <button onClick={clearSelectionList} type="button" className="py-2 px-4 flex justify-center items-center  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+              {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg> */}
+              Clear
+            </button>
+            }
+
           </div>
 
           {(!pdfFiles || pdfFiles.length < 1) && <p className='text-gray-400 mb-3'>
