@@ -24,6 +24,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"cremiredevio",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -38,6 +39,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"cremiredevio",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
   </body>
 </html>
