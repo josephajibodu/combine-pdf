@@ -54,7 +54,7 @@ const PDFSelections = () => {
               <div key={pdf.filename} className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
                 <div className="flex w-full ml-2 items-center justify-between">
                   <p>
-                    {pdf.filename}
+                    {pdf.title}
                   </p>
                   <button onClick={() => dispatch(unSelectPDF(pdf))} className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" className="text-red-600 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
