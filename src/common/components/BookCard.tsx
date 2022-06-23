@@ -22,7 +22,7 @@ const BookCard = ({ pdf, onBookSelected, onBookRemoved }: CardProps) => {
       </div>
       <div className='flex-auto px-4 pb-4 flex justify-between flex-col'>
         <div className="">
-          <h1 className="text-gray-900 font-bold text-2xl">
+          <h1 className="text-gray-900 font-bold text-xl">
             {pdf.title}
           </h1>
           <p className="my-2 text-gray-600 text-sm">
@@ -30,8 +30,8 @@ const BookCard = ({ pdf, onBookSelected, onBookRemoved }: CardProps) => {
           </p>
         </div>
         <div>
-          <div className="flex item-center mt-2 overflow-auto">
-            {pdf.category.map((category, index) => <span key={index} className="bg-gray-400 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mr-1 whitespace-nowrap">
+          <div className="flex item-center mt-2 flex-wrap">
+            {pdf.category.map((category, index) => <span key={index} className="bg-gray-400 mb-2 rounded-full text-white text-xs font-bold px-3 py-2 leading-none flex items-center mr-1 whitespace-nowrap">
               {category}
             </span>)}
           </div>
