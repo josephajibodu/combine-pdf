@@ -20,7 +20,7 @@ const initialState: PDFState = {
   pdfs: [],
   selectedPdfs: [],
   languages: [],
-  filter: "any",
+  filter: "English",
   searchterm: "",
   status: "idle",
   error: null,
