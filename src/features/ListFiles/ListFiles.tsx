@@ -34,7 +34,10 @@ const ListFiles = () => {
       if (searchterm) {
         // _filtered = _filtered.filter((pdf) => pdf.title.toLowerCase().includes(searchterm.toLowerCase()))
         _filtered = _filtered.filter((pdf) => {
-          return searchterm.split(" ").every((q) => searchFor(q, pdf.title));
+          return searchterm.split(" ").every((q) => {
+
+            return searchFor(q, pdf.title) || pdf.category.map(c => c.toLowerCase()).includes(q.toLowerCase());
+          });
         })
       }
 
