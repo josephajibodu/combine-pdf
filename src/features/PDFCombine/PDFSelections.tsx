@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useCopyToClipboard from '../../common/hooks/useCopyToClipboard';
 import { clearSelection, combinePDFs, unSelectPDF } from '../ListFiles/pdfsSlice';
+import { toast } from 'react-toastify';
 
 const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<Boolean>(false);
@@ -10,7 +11,7 @@ const PDFSelections = () => {
   // const readyToDownloadFile = useAppSelector((state) => state.pdfs.combinedPDF);
   const dispatch = useAppDispatch();
 
-  const [copiedClipboardText, copyTextToClipboard] = useCopyToClipboard();
+  const [_,copyTextToClipboard] = useCopyToClipboard();
 
   const combineFiles = () => {
     dispatch(combinePDFs(pdfFiles)).unwrap().then(() => {
@@ -21,7 +22,20 @@ const PDFSelections = () => {
         textToBeCopied += `${pdfFile.description}\n`;
       });
 
-      copyTextToClipboard(textToBeCopied);
+      copyTextToClipboard(textToBeCopied)
+        .then(() => {
+          toast.info('Combined file names copied to clipboard!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+      });
+      
     });
   }
 
