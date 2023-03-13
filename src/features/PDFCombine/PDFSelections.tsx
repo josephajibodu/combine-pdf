@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import useCopyToClipboard from '../../common/hooks/useCopyToClipboard';
 import { clearSelection, combinePDFs, unSelectPDF } from '../ListFiles/pdfsSlice';
 
 const PDFSelections = () => {
@@ -9,8 +10,19 @@ const PDFSelections = () => {
   // const readyToDownloadFile = useAppSelector((state) => state.pdfs.combinedPDF);
   const dispatch = useAppDispatch();
 
+  const [copiedClipboardText, copyTextToClipboard] = useCopyToClipboard();
+
   const combineFiles = () => {
-    dispatch(combinePDFs(pdfFiles));
+    dispatch(combinePDFs(pdfFiles)).unwrap().then(() => {
+
+      // extract the filenames
+      let textToBeCopied = ``;
+      pdfFiles.forEach((pdfFile, index) => {
+        textToBeCopied += `${pdfFile.description}\n`;
+      });
+
+      copyTextToClipboard(textToBeCopied);
+    });
   }
 
   const clearSelectionList = () => {
