@@ -50,49 +50,17 @@ const PDFFileItem = ({ pdf, movePDF } : PDFFileItemProp) => {
             if (item.pdf.filename === pdf.filename) {
                 return
             }
-            
-            // Determine rectangle on screen
-            // const hoverBoundingRect = ref.current?.getBoundingClientRect()
-
-            // Get vertical middle
-            // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
-            // Determine mouse position
-            // const clientOffset = monitor.getClientOffset()
-
-            // Get pixels to the top
-            // const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
-
-            
-            // Only perform the move when the mouse has crossed half of the items height
-            // When dragging downwards, only move when the cursor is below 50%
-            // When dragging upwards, only move when the cursor is above 50%
-
-            // Dragging downwards: dragIndex < hoverIndex
-            // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-            //     return
-            // }
-
-            // Dragging upwards: dragIndex > hoverIndex
-            // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-            //     return
-            // }
 
             // Time to actually perform the action
             movePDF(item.pdf, pdf);
-            
-            // Note: we're mutating the monitor item here!
-            // Generally it's better to avoid mutations,
-            // but it's good here for the sake of performance
-            // to avoid expensive index searches.
-            // item.pdf = pdf
+
         }
     }));
 
     drop(drag(ref));
 
     return (
-        <div data-handler-id={handlerId} ref={ref} key={pdf.filename} className={`flex items-center mb-2 rounded justify-between p-3 bg-purple-100 ${isDragging ? 'opacity-10' : ''}`}>
+        <div data-handler-id={handlerId} ref={ref} key={pdf.filename} className={`transition overflow-hidden cursor-move flex items-center mb-2 rounded justify-between p-3 bg-purple-100 ${isDragging ? 'opacity-10' : ''}`}>
             <div className={`flex w-full ml-2 items-center justify-between`}>
                 <p>
                     {pdf.title}

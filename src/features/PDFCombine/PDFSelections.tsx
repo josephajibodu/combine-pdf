@@ -48,7 +48,7 @@ const PDFSelections = () => {
   const movePDF = useCallback((sourcePDF: PDF, targetPDF: PDF) => {
     dispatch(reorderSelection({sourcePDF, targetPDF}))
   }, [])
-  
+
   return (
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
@@ -81,7 +81,7 @@ const PDFSelections = () => {
             No File Selected!
           </p>}
 
-          <div className={`overflow-y-auto max-h-96`}>
+          <div className={`transition overflow-y-auto max-h-96`}>
             {pdfFiles.map((pdf) => (
               <PDFFileItem key={pdf.filename} movePDF={movePDF}  pdf={pdf} />
             ))}
