@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -16,9 +17,12 @@
     "file-saver": "^2.0.5",
     "pdf-lib": "^1.17.1",
     "react": "^18.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.1",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },

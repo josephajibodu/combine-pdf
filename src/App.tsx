@@ -3,6 +3,8 @@ import { useAppDispatch } from './app/hooks';
 import Navigation from './common/components/Navigation';
 import ListFiles from './features/ListFiles';
 import PDFSelections from './features/PDFCombine';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
 
@@ -11,7 +13,10 @@ function App() {
       <Navigation />
       <div className='md:container mx-auto p-4'>
         <ListFiles />
-        <PDFSelections />
+
+        <DndProvider backend={HTML5Backend}>
+          <PDFSelections />
+        </DndProvider>
       </div>
     </div>
   );
