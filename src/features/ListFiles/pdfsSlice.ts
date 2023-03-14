@@ -86,6 +86,20 @@ export const pdfsSlice = createSlice({
       });
     },
 
+    reorderSelection: (state, { payload } : PayloadAction<{ sourcePDF: PDF, targetPDF: PDF }>) => {
+        const { sourcePDF, targetPDF } = payload
+        
+        // Find indexes
+        const targetIndex = state.selectedPdfs.findIndex(_pdf => _pdf.filename == targetPDF.filename);
+        const sourceIndex = state.selectedPdfs.findIndex(_pdf => _pdf.filename == sourcePDF.filename);
+
+        const _selectedPdfs = state.selectedPdfs;
+        _selectedPdfs.splice(sourceIndex, 1);
+        _selectedPdfs.splice(targetIndex, 0, sourcePDF);
+
+        state.selectedPdfs = _selectedPdfs;
+    },
+
     extractLanguages: (state) => {
       let languages: string[] = [];
 
@@ -137,6 +151,6 @@ export const pdfsSlice = createSlice({
   },
 });
 
-export const { selectPDF, unSelectPDF, extractLanguages, setFilter, setSearchTerm, clearSelection } = pdfsSlice.actions;
+export const { selectPDF, unSelectPDF, extractLanguages, setFilter, setSearchTerm, clearSelection, reorderSelection } = pdfsSlice.actions;
 
 export default pdfsSlice.reducer;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useCopyToClipboard from '../../common/hooks/useCopyToClipboard';
-import { clearSelection, combinePDFs, unSelectPDF } from '../ListFiles/pdfsSlice';
+import { clearSelection, combinePDFs, reorderSelection, unSelectPDF } from '../ListFiles/pdfsSlice';
 import { toast } from 'react-toastify';
+import PDFFileItem from './PDFFileItem';
+import { PDF } from '../../app/types';
 
 const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<Boolean>(false);
@@ -43,6 +45,10 @@ const PDFSelections = () => {
     dispatch(clearSelection());
   }
 
+  const movePDF = useCallback((sourcePDF: PDF, targetPDF: PDF) => {
+    dispatch(reorderSelection({sourcePDF, targetPDF}))
+  }, [])
+
   return (
     <div className='fixed  flex flex-col items-end bottom-4 right-4'>
 
@@ -75,20 +81,9 @@ const PDFSelections = () => {
             No File Selected!
           </p>}
 
-          <div className='overflow-y-auto max-h-96'>
+          <div className={`overflow-y-auto max-h-96`}>
             {pdfFiles.map((pdf) => (
-              <div key={pdf.filename} className="flex items-center mb-2 rounded justify-between p-3 bg-purple-100">
-                <div className="flex w-full ml-2 items-center justify-between">
-                  <p>
-                    {pdf.title}
-                  </p>
-                  <button onClick={() => dispatch(unSelectPDF(pdf))} className="flex items-center hover:text-black dark:text-gray-50 dark:hover:text-white text-gray-800 border-0 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="text-red-600 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+              <PDFFileItem key={pdf.filename} movePDF={movePDF}  pdf={pdf} />
             ))}
           </div>
 
